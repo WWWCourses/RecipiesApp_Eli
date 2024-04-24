@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipies List</title>
+    <link rel="stylesheet" href="../styles/RecipiesList.css">
 </head>
+
 <body>
     <h1>List of all the recipies</h1>
     <label for="cuisine">Cuisine: </label>
-    <select name="cuisineFilter" id="cuisineFilter" >
+    <select name="cuisineFilter" id="cuisineFilter">
     </select>
 
     <label for="preptime">Preparation time: </label>
-    <select name="preptime" id="preptime" >
+    <select name="preptime" id="preptime">
     </select>
 
     <label for="restrictions">Dietary restrictions: </label>
-    <select name="restrictions" id="restrictions" >
+    <select name="restrictions" id="restrictions">
         <option value="norestrictions">-</option>
         <option value="milk">Dairy free</option>
         <option value="sugar">Sugar free</option>
@@ -25,11 +28,25 @@
         <option value="vegan">Vegan</option>
         <option value="nuts">Nuts free</option>
     </select>
+    <br>
+    <br>
 
-    <div class="listOfMeals"></div>
+    <div class="listOfMeals">
+        <!-- each meal will have this look -->
+        <!-- <div class="individualMeal">
+            <img class="imageIndividualMeal" src="${}" alt="image of the meal">
+            <h2>${}</h2>
+            <p>
+                Area: ${}<br>
+                Category: ${}<br>
+                ${}
+            </p>
+        </div> -->
+    </div>
 
 
     <script src="../code/recipiesList.js"></script>
-    
+
 </body>
+
 </html>

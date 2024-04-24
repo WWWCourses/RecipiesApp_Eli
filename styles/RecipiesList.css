@@ -1,0 +1,16 @@
+h1{
+    color: maroon;
+    text-align: center;
+}
+.individualMeal{
+    padding: 1em;
+    border: 2px solid rgb(49, 0, 0);
+    background-color: rgb(221, 184, 172);
+
+}
+.imageIndividualMeal{
+    width: 150px;
+    height: 150px;
+    border: 2px solid rgb(49, 0, 0);
+}
+
