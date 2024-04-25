@@ -1,16 +1,36 @@
+body{
+    margin: 0;
+}
 h1{
-    color: maroon;
+    color: rgb(114, 0, 0);
     text-align: center;
 }
+
+.filters{
+    width: 50%;
+    margin: auto;
+}
+
+.filterRestrictions{
+    padding-left: 2em;
+}
+
 .individualMeal{
     padding: 1em;
-    border: 2px solid rgb(49, 0, 0);
-    background-color: rgb(221, 184, 172);
-
+    background-color: rgb(244, 221, 214);
+    display: flex;
 }
+.individualMeal:nth-child(odd) {
+    background-color: rgb(221, 184, 172);
+}
+
+.descriptionMeal{
+    display: inline-block;
+    margin-left: 2em;
+}
+
 .imageIndividualMeal{
     width: 150px;
-    height: 150px;
     border: 2px solid rgb(49, 0, 0);
+    display: inline-block;
 }
-

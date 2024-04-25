@@ -55,31 +55,33 @@ getMealsObjandTitles()
         console.log(ArrayOfMeals_IdTitleDescription);
         mealTitles.sort();
         console.log(mealTitles);
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
             if(ArrayOfMeals_IdTitleDescription[i].tags){
                 ListOfMeals.innerHTML += `
                 <div class="individualMeal">
                     <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                    <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                    <p>
-                        Area: ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                        Category: ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                        Tags: ${ArrayOfMeals_IdTitleDescription[i].tags}<br>
-                    </p>
+                    <div class="descriptionMeal">
+                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                        <div>
+                            <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
+                            <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                            <b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>
+                        </div>
+                    </div>
                 </div>
-                <br>
                 `;
             } else {
                 ListOfMeals.innerHTML += `
                 <div class="individualMeal">
                     <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                    <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                    <p>
-                        Area: ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                        Category: ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                    </p>
+                    <div class="descriptionMeal">
+                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                        <div>
+                            <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
+                            <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                        </div>
+                    </div>
                 </div>
-                <br>
                 `;
             }
             
