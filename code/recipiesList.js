@@ -1,16 +1,27 @@
-let ListOfMeals = document.querySelector('.listOfMeals');
+//take and make the options for the cuisine filter
+function MakeOptionsForSelectCuisine(url) {
+    fetch(url)
+        .then(resp => {
+            if (resp.status == 200) { return resp.json(); }
+        })
+        .then(data => {
+            for (let i = 0; i < data.meals.length; i++) {
+                listOfCuisines.push(data.meals[i].strArea);
+            }
+        })
+        .then(() => {
+            console.log(listOfCuisines);
+            for (let i = 0; i < listOfCuisines.length; i++) {
+                dom.CuisineSelect.innerHTML += `<option value="${listOfCuisines[0]}">${listOfCuisines[i]}</option>`;
+            }
 
-const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-const urlByFirstLetter = 'https://www.themealdb.com/api/json/v1/1/search.php?f=';
+        })
+    return listOfCuisines;
+}
 
-//list of objects that contains id, title and 
-//description: Category, Area, Tags
-let ArrayOfMeals_IdTitleDescription = [];
-
-//list of titles to sort all the meals in alphabetical order
-let mealTitles = [];
-
-async function getMealsObjandTitles() {
+//get meals (title and description) and create <div> for each meal in alphabetical order
+//I noticed that some of the meals don't have tags so I made 2 versions for the div-s
+async function getMealsObjAndTitles() {
     for (let j = 0; j < alphabet.length; j++) {
         const URLletter = urlByFirstLetter + alphabet[j];
         await fetch(URLletter)
@@ -45,46 +56,78 @@ async function getMealsObjandTitles() {
                     }
                 }
             })
+            .then(() => {
+                mealTitles.sort();
+            })
+            .then(() => {
+                for (let i = 0; i < 30; i++) { //30 will be changed to mealTitles.length
+                    if (ArrayOfMeals_IdTitleDescription[i].tags) {
+                        dom.ListOfMeals.innerHTML += `
+                        <div class="individualMeal">
+                            <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
+                            <div class="descriptionMeal">
+                                <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                                <div>
+                                    <p>
+                                        <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
+                                        <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                                        <b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>
+                                    </p>
+                                    <button>View recipie</button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    } else {
+                        dom.ListOfMeals.innerHTML += `
+                        <div class="individualMeal">
+                            <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
+                            <div class="descriptionMeal">
+                                <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                                <div>
+                                    <p>
+                                        <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
+                                        <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                                    </p>
+                                    <button>View recipie</button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }
+        
+                }
+        
+            })
             .catch(err => console.log(err.message));
     }
     return ArrayOfMeals_IdTitleDescription
 }
 
-getMealsObjandTitles()
-    .then(() => {
-        console.log(ArrayOfMeals_IdTitleDescription);
-        mealTitles.sort();
-        console.log(mealTitles);
-        for (let i = 0; i < 30; i++) {
-            if(ArrayOfMeals_IdTitleDescription[i].tags){
-                ListOfMeals.innerHTML += `
-                <div class="individualMeal">
-                    <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                    <div class="descriptionMeal">
-                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                        <div>
-                            <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                            <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                            <b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>
-                        </div>
-                    </div>
-                </div>
-                `;
-            } else {
-                ListOfMeals.innerHTML += `
-                <div class="individualMeal">
-                    <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                    <div class="descriptionMeal">
-                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                        <div>
-                            <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                            <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }
-            
-        }
+const dom = {
+    ListOfMeals: document.querySelector('.listOfMeals'),
+    CuisineSelect: document.querySelector('#cuisineFilter'),
+};
 
-    })
+//url for the meals without the first letter of the meal at the end
+const urlByFirstLetter = 'https://www.themealdb.com/api/json/v1/1/search.php?f=';
+
+//letters for the fetch for all meals
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+//list of titles to sort all the meals in alphabetical order 
+let mealTitles = [];
+
+//url for the options for the cuisine filter
+const urlCuisine = "https://www.themealdb.com/api/json/v1/1/list.php?a=list";
+let listOfCuisines = [];
+
+//list of objects that contains id, title and 
+//description: Category, Area, Tags
+let ArrayOfMeals_IdTitleDescription = [];
+
+//make options in the select for cuisine
+MakeOptionsForSelectCuisine(urlCuisine);
+
+//make <div>-s for each meal
+getMealsObjAndTitles();
