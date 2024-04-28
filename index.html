@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipies App</title>
+    <link rel="stylesheet" href="./styles/RecipiesList.css">
+    <link rel="icon" type="image/x-icon" href="https://www.themealdb.com/images/ingredients/Lime.png">
 </head>
-<body>
+
+<body id="mainPage">
     <h1>Find your favorite recipies</h1>
-    <input type="text" id="recipieInput" placeholder="type recipie name, cuisine or ingredient ...">
-    <button id="find_button">find</button>
-    <hr>
-    <a href="./pages/RecipiesList.html"><button id="ShowAllRecipies">View all recipies</button></a>
+    <div class="searchRecipieCuisineOrIngredient">
+        <input type="text" id="recipieInput" placeholder="type recipie name, cuisine or ingredient ...">
+        <button id="find_button">Find</button>
+    </div>
+    <br>
+    <div class="viewAllRecipies">
+        <img id="mainIMG" src="./images/indexBackground.jpg" alt="backgroundIMG">
+        <br>
+        <a href="./pages/RecipiesList.html"><button id="ShowAllRecipies">View all recipies</button></a>
+    </div>
 
 </body>
+
 </html>

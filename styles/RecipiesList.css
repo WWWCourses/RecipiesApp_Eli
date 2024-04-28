@@ -2,6 +2,10 @@ body {
     margin: 0;
 }
 
+#mainPage{
+    background-color: rgb(221, 184, 172);
+}
+
 h1 {
     color: rgb(114, 0, 0);
     text-align: center;
@@ -11,9 +15,25 @@ h2{
     font-size: 22px;
 }
 
-.filters {
+.filters, .searchRecipieCuisineOrIngredient, .viewAllRecipies {
     display: flexbox;
     text-align: center;
+}
+
+#recipieInput{
+    width: 260px;
+    height: 17px;
+    border: 2px solid rgb(116, 116, 116);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.viewAllRecipies{
+    vertical-align: middle;
+}
+
+#mainIMG{
+    height: 70vh;
+    margin-bottom: 1em;
 }
 
 .filterRestrictions {
@@ -50,4 +70,8 @@ button {
     font-size: 14px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    cursor: pointer;
 }
