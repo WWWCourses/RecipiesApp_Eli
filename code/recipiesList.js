@@ -10,7 +10,6 @@ function MakeOptionsForSelectCuisine(url) {
             }
         })
         .then(() => {
-            console.log(listOfCuisines);
             for (let i = 0; i < listOfCuisines.length; i++) {
                 dom.CuisineSelect.innerHTML += `<option value="${listOfCuisines[0]}">${listOfCuisines[i]}</option>`;
             }
@@ -33,75 +32,53 @@ async function getMealsObjAndTitles() {
                     for (let i = 0; i < data.meals.length; i++) {
                         const meal = data.meals[i];
                         mealTitles.push(meal.strMeal);
+                        let obj = {
+                            'id': meal.idMeal,
+                            'title': meal.strMeal,
+                            'image': meal.strMealThumb,
+                            'category': meal.strCategory,
+                            'area': meal.strArea
+                        };
                         if (meal.strTags != null) {
-                            const obj = {
-                                'id': meal.idMeal,
-                                'title': meal.strMeal,
-                                'image': meal.strMealThumb,
-                                'category': meal.strCategory,
-                                'area': meal.strArea,
-                                'tags': meal.strTags.split(",")
-                            }
-                            ArrayOfMeals_IdTitleDescription.push(obj);
-                        } else {
-                            const obj = {
-                                'id': meal.idMeal,
-                                'title': meal.strMeal,
-                                'image': meal.strMealThumb,
-                                'category': meal.strCategory,
-                                'area': meal.strArea
-                            }
-                            ArrayOfMeals_IdTitleDescription.push(obj);
+                            obj['tags'] = meal.strTags.split(",");
                         }
+                        ArrayOfMeals_IdTitleDescription.push(obj);
                     }
                 }
             })
             .then(() => {
                 mealTitles.sort();
             })
-            .then(() => {
-                for (let i = 0; i < 30; i++) { //30 will be changed to mealTitles.length
-                    if (ArrayOfMeals_IdTitleDescription[i].tags) {
-                        dom.ListOfMeals.innerHTML += `
-                        <div class="individualMeal">
-                            <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                            <div class="descriptionMeal">
-                                <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                                <div>
-                                    <p>
-                                        <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                                        <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                                        <b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>
-                                    </p>
-                                    <button>View recipie</button>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                    } else {
-                        dom.ListOfMeals.innerHTML += `
-                        <div class="individualMeal">
-                            <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
-                            <div class="descriptionMeal">
-                                <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
-                                <div>
-                                    <p>
-                                        <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                                        <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
-                                    </p>
-                                    <button>View recipie</button>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                    }
-        
-                }
-        
-            })
             .catch(err => console.log(err.message));
     }
-    return ArrayOfMeals_IdTitleDescription
+}
+
+//function that creates div-s for every meal
+async function createMealDivs() {
+    //get meals titles and descriptions
+    await getMealsObjAndTitles();
+    for (let i = 0; i < 10; i++) { //10 will be changed to mealTitles.length
+        dom.ListOfMeals.innerHTML += `
+                <div class="individualMeal">
+                    <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
+                    <div class="descriptionMeal">
+                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                        <div>
+                            <p class="descriptionMeal_TagChecking">
+                                <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
+                                <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                            </p>
+                            <button>View recipie</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        if (ArrayOfMeals_IdTitleDescription[i].tags) {
+            const tagsSTR = document.querySelectorAll(`.descriptionMeal_TagChecking:nth-child(${i})`);
+            console.log(i);
+            tagsSTR.innerHTML += `<b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>`;
+        }
+    }
 }
 
 const dom = {
@@ -129,5 +106,7 @@ let ArrayOfMeals_IdTitleDescription = [];
 //make options in the select for cuisine
 MakeOptionsForSelectCuisine(urlCuisine);
 
+
+// console.log(ArrayOfMeals_IdTitleDescription[0].tags);
 //make <div>-s for each meal
-getMealsObjAndTitles();
+createMealDivs();
