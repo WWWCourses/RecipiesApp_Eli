@@ -57,7 +57,7 @@ async function getMealsObjAndTitles() {
 async function createMealDivs() {
     //get meals titles and descriptions
     await getMealsObjAndTitles();
-    for (let i = 0; i < 10; i++) { //10 will be changed to mealTitles.length
+    for (let i = 0; i < 20; i++) { //20 will be changed to mealTitles.length
         dom.ListOfMeals.innerHTML += `
                 <div class="individualMeal">
                     <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
@@ -73,10 +73,16 @@ async function createMealDivs() {
                     </div>
                 </div>
             `;
+    }
+}
+
+async function createTagsForEachMeal(){
+    //make <div>-s for each meal
+    await createMealDivs();
+    let tagsSTR = document.querySelectorAll('.descriptionMeal_TagChecking');
+    for (let i = 0; i < tagsSTR.length; i++) {
         if (ArrayOfMeals_IdTitleDescription[i].tags) {
-            const tagsSTR = document.querySelectorAll(`.descriptionMeal_TagChecking:nth-child(${i})`);
-            console.log(i);
-            tagsSTR.innerHTML += `<b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>`;
+            tagsSTR[i].innerHTML += `<b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>`;
         }
     }
 }
@@ -106,7 +112,5 @@ let ArrayOfMeals_IdTitleDescription = [];
 //make options in the select for cuisine
 MakeOptionsForSelectCuisine(urlCuisine);
 
-
-// console.log(ArrayOfMeals_IdTitleDescription[0].tags);
-//make <div>-s for each meal
-createMealDivs();
+//creste tags for each meal
+createTagsForEachMeal();
