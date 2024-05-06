@@ -57,6 +57,7 @@ async function getMealsObjAndTitles() {
 async function createMealDivs() {
     //get meals titles and descriptions
     await getMealsObjAndTitles();
+    dom.ListOfMeals.innerHTML = '';
     for (let i = 0; i < 20; i++) { //20 will be changed to mealTitles.length
         dom.ListOfMeals.innerHTML += `
                 <div class="individualMeal">

@@ -10,9 +10,17 @@
 </head>
 
 <body id="mainPage">
-    <h1>Find your favorite recipies</h1>
+    <h1><span class="linesH1">~</span> Find your favorite recipies <span class="linesH1">~</span></h1>
     <div class="searchRecipieCuisineOrIngredient">
-        <input type="text" id="recipieInput" placeholder="type recipie name, cuisine or ingredient ...">
+        <label for="typeOfSearch"><b class="typeOfSearch">Search by:</b> </label>
+        <select name="searchBy" id="searchBy">
+            <option value="name">Recipie name</option>
+            <option value="milk">Cuisine</option>
+            <option value="sugar">Ingredient</option>
+        </select>
+        <br>
+        <br>
+        <input type="text" id="recipieInput" placeholder="Type ...">
         <button id="find_button">Find</button>
     </div>
     <br>
