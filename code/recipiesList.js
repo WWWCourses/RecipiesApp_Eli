@@ -54,20 +54,18 @@ async function getMealsObjAndTitles() {
 }
 
 //function that creates div-s for every meal
-async function createMealDivs() {
-    //get meals titles and descriptions
-    await getMealsObjAndTitles();
+async function createMealDivs(arr) {
     dom.ListOfMeals.innerHTML = '';
     for (let i = 0; i < 20; i++) { //20 will be changed to mealTitles.length
         dom.ListOfMeals.innerHTML += `
                 <div class="individualMeal">
-                    <img class="imageIndividualMeal" src="${ArrayOfMeals_IdTitleDescription[i].image}" alt="image of the meal">
+                    <img class="imageIndividualMeal" src="${arr[i].image}" alt="image of the meal">
                     <div class="descriptionMeal">
-                        <h2>${ArrayOfMeals_IdTitleDescription[i].title}</h2>
+                        <h2>${arr[i].title}</h2>
                         <div>
                             <p class="descriptionMeal_TagChecking">
-                                <b>Area:</b> ${ArrayOfMeals_IdTitleDescription[i].area}<br>
-                                <b>Category:</b> ${ArrayOfMeals_IdTitleDescription[i].category}<br>
+                                <b>Area:</b> ${arr[i].area}<br>
+                                <b>Category:</b> ${arr[i].category}<br>
                             </p>
                             <button>View recipie</button>
                         </div>
@@ -77,15 +75,27 @@ async function createMealDivs() {
     }
 }
 
-async function createTagsForEachMeal(){
-    //make <div>-s for each meal
-    await createMealDivs();
+async function createTagsForEachMeal(arr) {
     let tagsSTR = document.querySelectorAll('.descriptionMeal_TagChecking');
     for (let i = 0; i < tagsSTR.length; i++) {
-        if (ArrayOfMeals_IdTitleDescription[i].tags) {
-            tagsSTR[i].innerHTML += `<b>Tags:</b> ${ArrayOfMeals_IdTitleDescription[i].tags}<br>`;
+        if (arr[i].tags) {
+            tagsSTR[i].innerHTML += `<b>Tags:</b> ${arr[i].tags}<br>`;
         }
     }
+}
+
+async function mainPageContent() {
+    //make options in the select for cuisine
+    MakeOptionsForSelectCuisine(urlCuisine);
+
+    //get meals titles and descriptions
+    await getMealsObjAndTitles();
+
+    //make <div>-s for each meal
+    await createMealDivs(ArrayOfMeals_IdTitleDescription);
+
+    //creste tags for each meal
+    await createTagsForEachMeal(ArrayOfMeals_IdTitleDescription);
 }
 
 const dom = {
@@ -109,9 +119,3 @@ let listOfCuisines = [];
 //list of objects that contains id, title and 
 //description: Category, Area, Tags
 let ArrayOfMeals_IdTitleDescription = [];
-
-//make options in the select for cuisine
-MakeOptionsForSelectCuisine(urlCuisine);
-
-//creste tags for each meal
-createTagsForEachMeal();
