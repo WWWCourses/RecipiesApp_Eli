@@ -98,6 +98,18 @@ async function mainPageContent() {
     await createTagsForEachMeal(ArrayOfMeals_IdTitleDescription);
 }
 
+async function filtersCuisine(){
+    cuisineSelectorValue = dom.CuisineSelect.value;
+    if (cuisineSelectorValue == "norestrictionsCuisine") {
+        await createMealDivs(ArrayOfMeals_IdTitleDescription);
+        await createTagsForEachMeal(ArrayOfMeals_IdTitleDescription);
+    } else {
+        let filteredMeals = ArrayOfMeals_IdTitleDescription.filter(meal => meal.area == cuisineSelectorValue);
+        await createMealDivs(filteredMeals);
+        await createTagsForEachMeal(filteredMeals);
+    }
+}
+
 const dom = {
     ListOfMeals: document.querySelector('.listOfMeals'),
     CuisineSelect: document.querySelector('#cuisineFilter'),
@@ -124,14 +136,10 @@ let ArrayOfMeals_IdTitleDescription = [];
 let cuisineSelectorValue = "norestrictionsCuisine";
 let dietarySelectorValue = "norestrictionsDiet";
 
-dom.CuisineSelect.addEventListener("change", async() => {
-    cuisineSelectorValue = dom.CuisineSelect.value;
-    console.log(cuisineSelectorValue);
-    let filteredMeals = ArrayOfMeals_IdTitleDescription.filter(meal => meal.area == cuisineSelectorValue);
-    await createMealDivs(filteredMeals);
-    await createTagsForEachMeal(filteredMeals);
-})
+//filter by area
+dom.CuisineSelect.addEventListener("change", filtersCuisine)
 
+//filter by restrictions
 dom.DietSelect.addEventListener("change", () => {
     dietarySelectorValue = dom.DietSelect.value;
 })
