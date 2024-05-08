@@ -11,7 +11,7 @@ function MakeOptionsForSelectCuisine(url) {
         })
         .then(() => {
             for (let i = 0; i < listOfCuisines.length; i++) {
-                dom.CuisineSelect.innerHTML += `<option value="${listOfCuisines[0]}">${listOfCuisines[i]}</option>`;
+                dom.CuisineSelect.innerHTML += `<option value="${listOfCuisines[i]}">${listOfCuisines[i]}</option>`;
             }
 
         })
@@ -56,7 +56,7 @@ async function getMealsObjAndTitles() {
 //function that creates div-s for every meal
 async function createMealDivs(arr) {
     dom.ListOfMeals.innerHTML = '';
-    for (let i = 0; i < 20; i++) { //20 will be changed to mealTitles.length
+    for (let i = 0; i < arr.length; i++) { //40 will be changed to mealTitles.length
         dom.ListOfMeals.innerHTML += `
                 <div class="individualMeal">
                     <img class="imageIndividualMeal" src="${arr[i].image}" alt="image of the meal">
@@ -101,6 +101,7 @@ async function mainPageContent() {
 const dom = {
     ListOfMeals: document.querySelector('.listOfMeals'),
     CuisineSelect: document.querySelector('#cuisineFilter'),
+    DietSelect: document.querySelector('#restrictions'),
 };
 
 //url for the meals without the first letter of the meal at the end
@@ -119,3 +120,18 @@ let listOfCuisines = [];
 //list of objects that contains id, title and 
 //description: Category, Area, Tags
 let ArrayOfMeals_IdTitleDescription = [];
+
+let cuisineSelectorValue = "norestrictionsCuisine";
+let dietarySelectorValue = "norestrictionsDiet";
+
+dom.CuisineSelect.addEventListener("change", async() => {
+    cuisineSelectorValue = dom.CuisineSelect.value;
+    console.log(cuisineSelectorValue);
+    let filteredMeals = ArrayOfMeals_IdTitleDescription.filter(meal => meal.area == cuisineSelectorValue);
+    await createMealDivs(filteredMeals);
+    await createTagsForEachMeal(filteredMeals);
+})
+
+dom.DietSelect.addEventListener("change", () => {
+    dietarySelectorValue = dom.DietSelect.value;
+})
